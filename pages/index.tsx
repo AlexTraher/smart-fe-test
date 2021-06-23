@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
 import { useCallback, useState } from 'react';
 import { Form } from '../client/Form';
 import { IProcessDataResponse } from '../types';
