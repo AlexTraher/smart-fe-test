@@ -1,24 +1,23 @@
-
 export interface IOrderedListItem {
-  path: string
-  visits: number
+  path: string;
+  visits: number;
 }
 
 export interface IOrderedUniqueListItem extends IOrderedListItem {
-  ip: string
+  ip: string;
 }
 
 export interface IDataItem {
-  path: string,
-  ip: string,
+  path: string;
+  ip: string;
 }
 
 interface ICountHash {
-  [key: string]: number
+  [key: string]: number;
 }
 
 interface IUniqueCountHash {
-  [key: string]: IOrderedUniqueListItem
+  [key: string]: IOrderedUniqueListItem;
 }
 
 export const generateOrderedList = (data: IDataItem[]): IOrderedListItem[] => {
@@ -31,19 +30,20 @@ export const generateOrderedList = (data: IDataItem[]): IOrderedListItem[] => {
       listCountHash[path]++;
     }
   });
-  
-  const result = Object.keys(listCountHash)
-    .map((key) => ({
-      path: key,
-      visits: listCountHash[key],
-    }));
-  
+
+  const result = Object.keys(listCountHash).map((key) => ({
+    path: key,
+    visits: listCountHash[key],
+  }));
+
   result.sort(({ visits: aVisits }, { visits: bVisits }) => bVisits - aVisits);
 
   return result;
-}
+};
 
-export const generateOrderedUniqueList = (data: IDataItem[]): IOrderedUniqueListItem[] => {
+export const generateOrderedUniqueList = (
+  data: IDataItem[]
+): IOrderedUniqueListItem[] => {
   const listCountHash: IUniqueCountHash = {};
 
   data.forEach(({ path, ip }) => {
@@ -55,20 +55,18 @@ export const generateOrderedUniqueList = (data: IDataItem[]): IOrderedUniqueList
       listCountHash[key].visits++;
     }
   });
-  
-  const result = Object.keys(listCountHash)
-    .map((key) => ({
-      ...listCountHash[key],
-    }));
-  
+
+  const result = Object.keys(listCountHash).map((key) => ({
+    ...listCountHash[key],
+  }));
+
   result.sort(({ visits: aVisits }, { visits: bVisits }) => bVisits - aVisits);
 
   return result;
-}
+};
 
-export const preprocessData = (data: string) => data
-  .split('\n')
-  .map((row: string) => {
+export const preprocessData = (data: string) =>
+  data.split('\n').map((row: string) => {
     const [path, ip] = row.split(' ');
     return { path, ip };
   });

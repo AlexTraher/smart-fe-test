@@ -3,11 +3,11 @@ import {
   generateOrderedUniqueList,
   preprocessData,
   IDataItem,
-} from './process-data'
+} from './process-data';
 
 describe('process data', () => {
-  let rawData: string
-  let preprocessedData: IDataItem[]
+  let rawData: string;
+  let preprocessedData: IDataItem[];
   beforeEach(() => {
     rawData = [
       '/help_page/1 126.318.035.038',
@@ -20,7 +20,7 @@ describe('process data', () => {
       '/help_page/1 722.247.931.582',
       '/about 061.945.150.735',
       '/help_page/1 646.865.545.408',
-    ].join('\n')
+    ].join('\n');
 
     preprocessedData = [
       {
@@ -63,39 +63,39 @@ describe('process data', () => {
         path: '/help_page/1',
         ip: '646.865.545.408',
       },
-    ]
-  })
+    ];
+  });
 
   it('should preprocess a set of data', () => {
-    const result = preprocessData(rawData)
-    expect(result).toEqual(preprocessedData)
-  })
+    const result = preprocessData(rawData);
+    expect(result).toEqual(preprocessedData);
+  });
 
   it('should generate an ordered list from preprocessed data', () => {
-    const result = generateOrderedList(preprocessedData)
+    const result = generateOrderedList(preprocessedData);
     expect(result[0]).toEqual({
       path: '/help_page/1',
       visits: 4,
-    })
+    });
 
     expect(result[5]).toEqual({
       path: '/about',
       visits: 1,
-    })
-  })
+    });
+  });
 
   it('should generate a unique ordered list from preprocessed data', () => {
-    const result = generateOrderedUniqueList(preprocessedData)
+    const result = generateOrderedUniqueList(preprocessedData);
     expect(result[0]).toEqual({
       visits: 2,
       ip: '444.701.448.104',
       path: '/index',
-    })
+    });
 
     expect(result[8]).toEqual({
       visits: 1,
       ip: '646.865.545.408',
       path: '/help_page/1',
-    })
-  })
-})
+    });
+  });
+});

@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`process api should return a processed JSON object when a file is uploaded 1`] = `
+Object {
+  "orderedResult": Array [
+    Object {
+      "path": "/help_page/1",
+      "visits": 4,
+    },
+    Object {
+      "path": "/index",
+      "visits": 2,
+    },
+    Object {
+      "path": "/contact",
+      "visits": 1,
+    },
+    Object {
+      "path": "/home",
+      "visits": 1,
+    },
+    Object {
+      "path": "/about/2",
+      "visits": 1,
+    },
+    Object {
+      "path": "/about",
+      "visits": 1,
+    },
+  ],
+  "uniqueOrderedResult": Array [
+    Object {
+      "ip": "444.701.448.104",
+      "path": "/index",
+      "visits": 2,
+    },
+    Object {
+      "ip": "126.318.035.038",
+      "path": "/help_page/1",
+      "visits": 1,
+    },
+    Object {
+      "ip": "184.123.665.067",
+      "path": "/contact",
+      "visits": 1,
+    },
+    Object {
+      "ip": "184.123.665.067",
+      "path": "/home",
+      "visits": 1,
+    },
+    Object {
+      "ip": "444.701.448.104",
+      "path": "/about/2",
+      "visits": 1,
+    },
+    Object {
+      "ip": "929.398.951.889",
+      "path": "/help_page/1",
+      "visits": 1,
+    },
+    Object {
+      "ip": "722.247.931.582",
+      "path": "/help_page/1",
+      "visits": 1,
+    },
+    Object {
+      "ip": "061.945.150.735",
+      "path": "/about",
+      "visits": 1,
+    },
+    Object {
+      "ip": "646.865.545.408",
+      "path": "/help_page/1",
+      "visits": 1,
+    },
+  ],
+}
+`;
