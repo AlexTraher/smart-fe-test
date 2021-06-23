@@ -5,25 +5,18 @@ import fs from 'fs';
 import {
   generateOrderedList,
   generateOrderedUniqueList,
-  IOrderedListItem,
-  IOrderedUniqueListItem,
   preprocessData,
 } from '../../server/process-data';
-
-type Data = {
-  orderedResult: IOrderedListItem[];
-  uniqueOrderedResult: IOrderedUniqueListItem[];
-};
+import { IProcessDataResponse } from '../../types';
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<IProcessDataResponse>
 ) {
   try {
     await new Promise<void>((resolve, reject) => {
       const form = formidable({ multiples: false });
       form.parse(req, (err, fields, Files) => {
-
         if (err) {
           res.status(500);
           reject(err);
@@ -39,11 +32,9 @@ export default async function handler(
         resolve();
       });
     });
-  
   } catch (e) {
     console.error(e);
   }
-
 }
 
 export const config = {

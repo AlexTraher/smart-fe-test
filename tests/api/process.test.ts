@@ -1,5 +1,10 @@
 import handler from '../../pages/api/process';
-import { createRequest, createResponse, MockRequest, MockResponse } from 'node-mocks-http';
+import {
+  createRequest,
+  createResponse,
+  MockRequest,
+  MockResponse,
+} from 'node-mocks-http';
 import formidable, { IncomingForm } from 'formidable';
 import { mocked } from 'ts-jest/utils';
 import fs from 'fs';
@@ -58,7 +63,6 @@ describe('process api', () => {
 
     mockedFormidable.mockReturnValue(mockIncomingForm);
 
-    
     await handler(req, res);
 
     expect(res._getJSONData()).toMatchSnapshot();

@@ -1,48 +1,80 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { useCallback, useState } from 'react';
+import { Form } from '../client/Form';
+import { IProcessDataResponse } from '../types';
+import {
+  Container,
+  Grid,
+  Typography,
+  Card,
+  CardContent,
+  CardHeader,
+} from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
+import { ProcessedData } from '../client/ProcessedData';
 
 export default function Home() {
-  const [selectedFile, setSelectedFile] = useState<File>();
+  const [data, setData] = useState<IProcessDataResponse>({
+    orderedResult: [],
+    uniqueOrderedResult: [],
+  });
+  const [loading, setLoading] = useState(true);
 
-  const submitForm = useCallback(
-    (event) => {
-      event.preventDefault();
-      if (!selectedFile) {
-        return;
-      }
-
+  const submitForm = useCallback((file: File) => {
+    const fetchData = async () => {
       const formData = new FormData();
-      formData.append('file', selectedFile, selectedFile.name);
+      formData.append('file', file, file.name);
+      setLoading(true);
 
-      fetch('/api/process', {
+      const responseData = await fetch('/api/process', {
         method: 'POST',
         body: formData,
-      });
-    },
-    [selectedFile]
-  );
+      }).then((res) => res.json());
 
-  const handleFileChange = useCallback(
-    (event) => {
-      event.preventDefault();
-      setSelectedFile(event.target.files[0]);
-    },
-    [setSelectedFile]
-  );
+      setData(responseData);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
 
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Smart FE Test</title>
-        <meta name="description" content="Website visit coding test" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <form onSubmit={submitForm}>
-        <input type="file" name="filename" onChange={handleFileChange} />
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+    <Container>
+      <Grid container spacing={3} alignItems="center">
+        <Head>
+          <title>Smart FE Test</title>
+          <meta name="description" content="Website visit coding test" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <Grid item xs={12}>
+          <Typography variant="h3" component="h1" align="center">
+            Smart FE Test
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Card>
+            <CardHeader title="Select A File" />
+            <CardContent>
+              <Form handleSubmit={submitForm}></Form>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12}>
+          <Card>
+            <CardHeader title="Processed Data" />
+            <CardContent>
+              {loading ? (
+                <Skeleton data-testid="data-skeleton">
+                  <ProcessedData data={data} />
+                </Skeleton>
+              ) : (
+                <ProcessedData data={data} />
+              )}
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </Container>
   );
 }

@@ -1,16 +1,4 @@
-export interface IOrderedListItem {
-  path: string;
-  visits: number;
-}
-
-export interface IOrderedUniqueListItem extends IOrderedListItem {
-  ip: string;
-}
-
-export interface IDataItem {
-  path: string;
-  ip: string;
-}
+import { IOrderedUniqueListItem, IDataItem, IOrderedListItem } from '../types';
 
 interface ICountHash {
   [key: string]: number;
@@ -31,10 +19,12 @@ export const generateOrderedList = (data: IDataItem[]): IOrderedListItem[] => {
     }
   });
 
-  const result = Object.keys(listCountHash).map((key) => ({
-    path: key,
-    visits: listCountHash[key],
-  }));
+  const result = Object.keys(listCountHash)
+    .map((key) => ({
+      visits: listCountHash[key],
+      path: key,
+    }))
+    .filter(({ path }) => path);
 
   result.sort(({ visits: aVisits }, { visits: bVisits }) => bVisits - aVisits);
 
@@ -50,15 +40,17 @@ export const generateOrderedUniqueList = (
     const key = `${path}-${ip}`;
 
     if (!listCountHash[key]) {
-      listCountHash[key] = { visits: 1, ip, path };
+      listCountHash[key] = { visits: 1, path, ip };
     } else {
       listCountHash[key].visits++;
     }
   });
 
-  const result = Object.keys(listCountHash).map((key) => ({
-    ...listCountHash[key],
-  }));
+  const result = Object.keys(listCountHash)
+    .map((key) => ({
+      ...listCountHash[key],
+    }))
+    .filter(({ path }) => path);
 
   result.sort(({ visits: aVisits }, { visits: bVisits }) => bVisits - aVisits);
 

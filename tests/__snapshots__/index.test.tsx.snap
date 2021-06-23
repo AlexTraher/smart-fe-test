@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`index page should allow you to selected a file, upload it and return a set of data 1`] = `
+Array [
+  "/api/process",
+  Object {
+    "body": FormData {},
+    "method": "POST",
+  },
+]
+`;
